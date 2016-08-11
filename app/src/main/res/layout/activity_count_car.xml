@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    tools:context="com.count.svjchrysler.count.CountCarActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/cronometro"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:id="@+id/textView" />
+
+    <LinearLayout
+        android:id="@+id/linears"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_category"
+            android:layout_weight=".3"
+            android:src="@drawable/particular"
+            android:id="@+id/imgParticular" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_category"
+            android:layout_weight=".3"
+            android:src="@drawable/bicicleta"
+            android:id="@+id/imgBicicleta" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_category"
+            android:src="@drawable/publico"
+            android:layout_weight=".3"
+            android:id="@+id/imgPublico" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textAlignment="center"
+            android:textSize="@dimen/size_fuente_categoria"
+            android:hint="Total: 0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textAlignment="center"
+            android:textSize="@dimen/size_fuente_categoria"
+            android:hint="Total: 0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textAlignment="center"
+            android:textSize="@dimen/size_fuente_categoria"
+            android:hint="Total: 0" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lineari"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_category"
+            android:src="@drawable/repartidor"
+            android:layout_weight=".3"
+            android:id="@+id/imgRepartidor" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_category"
+            android:src="@drawable/motocicleta"
+            android:layout_weight=".3"
+            android:id="@+id/imgMotoclicleta" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_category"
+            android:src="@drawable/taxi"
+            android:layout_weight=".3"
+            android:id="@+id/imgTaxi" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textAlignment="center"
+            android:textSize="@dimen/size_fuente_categoria"
+            android:hint="Total: 0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textAlignment="center"
+            android:textSize="@dimen/size_fuente_categoria"
+            android:hint="Total: 0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textAlignment="center"
+            android:textSize="@dimen/size_fuente_categoria"
+            android:hint="Total: 0" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

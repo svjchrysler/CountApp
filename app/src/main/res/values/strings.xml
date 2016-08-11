@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Conteo</string>
+    <string name="cod">Codigo Encuestador</string>
+    <string name="cronometro">10:00</string>
+    <string name="datos_generales">Datos Generales</string>
+</resources>
