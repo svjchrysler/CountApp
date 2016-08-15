@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:gravity="center_vertical"
-    tools:context="com.count.svjchrysler.count.CountCarActivity">
+    tools:context="com.count.svjchrysler.count.CountPeopleActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -27,23 +27,16 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="@dimen/altura_category"
-            android:layout_weight=".33"
-            android:src="@drawable/particular"
-            android:id="@+id/imgParticular" />
+            android:src="@drawable/ninia"
+            android:layout_weight=".50"
+            android:id="@+id/imgNinia" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="@dimen/altura_category"
-            android:layout_weight=".33"
-            android:src="@drawable/bicicleta"
-            android:id="@+id/imgBicicleta" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/altura_category"
-            android:src="@drawable/publico"
-            android:layout_weight=".33"
-            android:id="@+id/imgPublico" />
+            android:layout_weight=".50"
+            android:src="@drawable/hombre"
+            android:id="@+id/imgHombre" />
 
     </LinearLayout>
 
@@ -55,28 +48,19 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".33"
+            android:layout_weight=".50"
             android:textAlignment="center"
             android:textSize="@dimen/size_fuente_categoria"
-            android:id="@+id/txtparticular"
+            android:id="@+id/txtninia"
             android:hint="Total: 0" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".33"
+            android:layout_weight=".50"
             android:textAlignment="center"
             android:textSize="@dimen/size_fuente_categoria"
-            android:id="@+id/txtbicicleta"
-            android:hint="Total: 0" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".33"
-            android:textAlignment="center"
-            android:textSize="@dimen/size_fuente_categoria"
-            android:id="@+id/txtpublico"
+            android:id="@+id/txthombre"
             android:hint="Total: 0" />
 
     </LinearLayout>
@@ -90,23 +74,16 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="@dimen/altura_category"
-            android:src="@drawable/repartidor"
-            android:layout_weight=".33"
-            android:id="@+id/imgRepartidor" />
+            android:src="@drawable/abuelo"
+            android:layout_weight=".50"
+            android:id="@+id/imgAbuelo" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="@dimen/altura_category"
-            android:src="@drawable/motocicleta"
-            android:layout_weight=".33"
-            android:id="@+id/imgMotoclicleta" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/altura_category"
-            android:src="@drawable/taxi"
-            android:layout_weight=".33"
-            android:id="@+id/imgTaxi" />
+            android:src="@drawable/mujer"
+            android:layout_weight=".50"
+            android:id="@+id/imgMujer" />
 
     </LinearLayout>
 
@@ -118,31 +95,21 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".33"
+            android:layout_weight=".50"
             android:textAlignment="center"
             android:textSize="@dimen/size_fuente_categoria"
-            android:id="@+id/txtrepartidor"
+            android:id="@+id/txtabuelo"
             android:hint="Total: 0" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".33"
+            android:layout_weight=".50"
             android:textAlignment="center"
             android:textSize="@dimen/size_fuente_categoria"
-            android:id="@+id/txtmotoclicleta"
-            android:hint="Total: 0" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".33"
-            android:textAlignment="center"
-            android:textSize="@dimen/size_fuente_categoria"
-            android:id="@+id/txttaxi"
+            android:id="@+id/txtmujer"
             android:hint="Total: 0" />
 
     </LinearLayout>
-
 
 </LinearLayout>

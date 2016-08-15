@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="altura_category">80dp</dimen>
     <dimen name="size_fuente_categoria">20sp</dimen>
+    <dimen name="altura_categoria_people">90dp</dimen>
+    <dimen name="dialog_font_size">20sp</dimen>
 </resources>

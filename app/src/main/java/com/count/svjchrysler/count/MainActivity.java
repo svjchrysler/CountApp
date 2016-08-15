@@ -1,53 +1,60 @@
 package com.count.svjchrysler.count;
 
 import android.content.Intent;
-import android.graphics.Point;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    private EditText edtCod;
-    private ImageView imgPerson, imgCar;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import xyz.hanks.library.SmallBang;
+
+public class MainActivity extends AppCompatActivity{
+
+    @BindView(R.id.edtCod)
+    EditText edtCod;
+
+    @BindView(R.id.imgCar)
+    ImageView imgCar;
+
+    @BindView(R.id.imgPerson)
+    ImageView imgPerson;
+
+    private SmallBang smallBang;
+    //Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        smallBang = SmallBang.attach2Window(this);
         setContentView(R.layout.activity_main);
-        init();
+        ButterKnife.bind(this);
     }
 
-    private void init() {
-        configComponents();
+    @OnClick(R.id.imgCar)
+    public void cars(View v) {
+        smallBang.bang(v);
+        Intent intentCar = new Intent(this, CountCarActivity.class);
+        startActivity(intentCar);
+        //vibrator.vibrate(3000);
     }
 
-    private void configComponents() {
-        edtCod = (EditText) findViewById(R.id.edtCod);
-        imgCar = (ImageView) findViewById(R.id.imgCar);
-        imgPerson = (ImageView) findViewById(R.id.imgPerson);
-        configEvent();
-    }
-
-    private void configEvent() {
-        imgCar.setOnClickListener(this);
-        imgPerson.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imgCar:
-                Intent intent = new Intent(this, CountCarActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.imgPerson:
-                break;
-        }
+    @OnClick(R.id.imgPerson)
+    public void people(View v) {
+        smallBang.bang(v);
+        Intent intentPeople = new Intent(this, CountPeopleActivity.class);
+        startActivity(intentPeople);
+        //vibrator.vibrate(3000);
     }
 }
