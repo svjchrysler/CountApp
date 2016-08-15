@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.count.svjchrysler.count">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -19,15 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CountCarActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".CountPeopleActivity"
             android:screenOrientation="landscape"></activity>
-
-        <activity android:name=".CountPeopleActivity"
-            android:screenOrientation="landscape">
-        </activity>
-
+        <activity android:name=".DialogActivity"></activity>
     </application>
 
 </manifest>

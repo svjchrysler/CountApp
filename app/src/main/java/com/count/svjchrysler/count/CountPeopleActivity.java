@@ -1,22 +1,16 @@
 package com.count.svjchrysler.count;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import butterknife.BindView;
 import xyz.hanks.library.SmallBang;
 
 public class CountPeopleActivity extends AppCompatActivity implements View.OnClickListener {
@@ -109,7 +103,7 @@ public class CountPeopleActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == event.KEYCODE_BACK && swventana) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && swventana) {
             advertenciaClose();
         }
         return super.onKeyDown(keyCode, event);
@@ -164,64 +158,9 @@ public class CountPeopleActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void tomarNota() {
-        /*AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Observaciones");
-        alert.setMessage("Descripcion");
-        alert.setCancelable(false);
-        // Set an EditText view to get user input
-        final EditText input = new EditText(this);
-        alert.setView(input);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                if (!input.getText().toString().equals("")) {
-                    datos[0] = countHombre;
-                    datos[1] = countNinia;
-                    datos[2] = countMujer;
-                    datos[3] = countAbuelo;
-                    dbHandler.addPerson(datos, input.getText().toString().trim());
-                    Intent intent = new Intent(CountPeopleActivity.this, CountPeopleActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    tomarNota();
-                }
-            }
-        });
-        alert.show();*/
 
         LayoutInflater inflater = getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.dialog, null);
-
-        final EditText edtCalle1 = (EditText) dialogLayout.findViewById(R.id.edtCalle1);
-        final EditText edtCalle2 = (EditText) dialogLayout.findViewById(R.id.edtCalle2);
-        final EditText edtCalle3 = (EditText) dialogLayout.findViewById(R.id.edtCalle3);
-        final EditText edtTemperatura = (EditText) dialogLayout.findViewById(R.id.edtTemperatura);
-        final Spinner spCondiciones = (Spinner) dialogLayout.findViewById(R.id.spCondicionesClimaticas);
-        final Button btnEnviar = (Button) dialogLayout.findViewById(R.id.btnEnviar);
-        final Button btnCancelar = (Button) dialogLayout.findViewById(R.id.btnCancelar);
-
-        ArrayAdapter<CharSequence> adapter;
-        adapter = ArrayAdapter.createFromResource(this, R.array.condiciones, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spCondiciones.setAdapter(adapter);
-
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String calle1 = edtCalle1.getText().toString();
-                String calle2 = edtCalle2.getText().toString();
-                String calle3 = edtCalle3.getText().toString();
-                String temperatura = edtTemperatura.getText().toString();
-            }
-        });
-
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        View dialogLayout = inflater.inflate(R.layout.activity_dialog, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CountPeopleActivity.this);
         builder.setView(dialogLayout);
