@@ -10,12 +10,6 @@
     <string name="temperatura">Temperatura</string>
     <string name="title_dialog">Observaciones</string>
     <string name="condiciones_clima">Condiciones del clima</string>
-
-    <string-array name="condiciones">
-        <item>Soleado</item>
-        <item>Parcialmente Nublado</item>
-        <item>Totalmente Nublado</item>
-        <item>Parcialmete Lluvioso</item>
-        <item>Luvioso</item>
-    </string-array>
+    <string name="people">people</string>
+    <string name="cars">cars</string>
 </resources>

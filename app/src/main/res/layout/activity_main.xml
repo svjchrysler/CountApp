@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:background="#FFF"
     tools:context="com.count.svjchrysler.count.MainActivity">
 
     <EditText
         android:layout_width="300dp"
         android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/cod"
+        android:layout_height="50dp"
+        android:hint="Nombre Encuestador"
         android:id="@+id/edtCod" />
 
     <LinearLayout
@@ -19,25 +20,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="50dp"
+            android:layout_margin="50dp"
             android:src="@drawable/personas"
             android:layout_weight="0.50"
-            android:id="@+id/imgPerson" />
+            android:id="@+id/imgPerson"
+            android:contentDescription="@string/people" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="50dp"
+            android:layout_margin="50dp"
             android:src="@drawable/autos"
             android:layout_weight="0.50"
-            android:id="@+id/imgCar" />
-
-
+            android:id="@+id/imgCar"
+            android:contentDescription="@string/cars" />
     </LinearLayout>
-
-
 </LinearLayout>

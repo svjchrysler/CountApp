@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
+    android:background="#FFF"
     tools:context="com.count.svjchrysler.count.DialogActivity">
 
     <TextView
@@ -18,7 +19,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/scrollView">
 
         <LinearLayout
@@ -26,47 +27,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/dialog_font_size"
-                android:text="@string/calle1" />
-
             <EditText
                 android:id="@+id/edtCalle1"
+                android:hint="@string/calle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/dialog_font_size"
-                android:text="@string/calle2" />
 
             <EditText
                 android:id="@+id/edtCalle2"
+                android:hint="@string/calle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/dialog_font_size"
-                android:text="@string/calle3" />
 
             <EditText
                 android:id="@+id/edtCalle3"
+                android:hint="@string/calle3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/dialog_font_size"
-                android:text="@string/temperatura" />
-
             <EditText
                 android:id="@+id/edtTemperatura"
+                android:hint="@string/temperatura"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -80,30 +61,17 @@
             <Spinner
                 android:id="@+id/spCondicionesClimaticas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></Spinner>
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/btnEnviar"
-                    android:text="Enviar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            </Spinner>
 
-                <Button
-                    android:id="@+id/btnCancelar"
-                    android:text="Cancelar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/edtNota"
+                android:hint="Observaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>

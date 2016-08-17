@@ -1,47 +1,148 @@
 package com.count.svjchrysler.count;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import xyz.hanks.library.SmallBang;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
-public class CountPeopleActivity extends AppCompatActivity implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    private ImageView imgHombre, imgNinia, imgMujer, imgAbuelo;
-    private TextView txtvCronometro;
-    private TextView txtHombre, txtNinia, txtMujer, txtAbuelo;
+public class CountPeopleActivity extends AppCompatActivity {
+
+    @BindView(R.id.imgHombre)
+    ImageView imgHombre;
+
+    @BindView(R.id.imgNinia)
+    ImageView imgNinia;
+
+    @BindView(R.id.imgMujer)
+    ImageView imgMujer;
+
+    @BindView(R.id.imgAbuelo)
+    ImageView imgAbuelo;
+
+    @BindView(R.id.txtvCronometro)
+    TextView txtvCronometro;
+
+    @BindView(R.id.txthombre)
+    TextView txtHombre;
+
+    @BindView(R.id.txtninia)
+    TextView txtNinia;
+
+    @BindView(R.id.txtmujer)
+    TextView txtMujer;
+
+    @BindView(R.id.txtabuelo)
+    TextView txtAbuelo;
 
     private CountDownTimer timer;
     private Integer countHombre, countNinia, countMujer, countAbuelo;
-
-    private boolean sw = false, swventana = false;
-    private SmallBang mSmallBang;
+    private boolean sw = false, swventana = false, swTerminado = false;
     private int[] datos = new int[4];
-
-    DBHandler dbHandler = new DBHandler(this);
+    private Spinner spinner;
+    private DBHandler dbHandler = new DBHandler(this);
+    private long hora, minutos, segundos, segundosTotales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_count_people);
         this.setTitle(R.string.datos_generales);
-        mSmallBang = SmallBang.attach2Window(this);
+        ButterKnife.bind(this);
         init();
     }
 
     private void init() {
-        configComponents();
-        configEventos();
         iniciarVariables();
-        tomarNota();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("abuelo", countAbuelo);
+        outState.putInt("ninia", countNinia);
+        outState.putInt("mujer", countMujer);
+        outState.putInt("hombre", countHombre);
+        outState.putInt("seconds", (int) segundosTotales);
+        timer.cancel();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        countAbuelo = savedInstanceState.getInt("abuelo");
+        countHombre = savedInstanceState.getInt("hombre");
+        countMujer = savedInstanceState.getInt("mujer");
+        countNinia = savedInstanceState.getInt("ninia");
+
+        txtAbuelo.setText("Total: " + countAbuelo);
+        txtHombre.setText("Total: " + countHombre);
+        txtMujer.setText("Total: " + countMujer);
+        txtNinia.setText("Total: " + countNinia);
+
+        initCronometro(savedInstanceState.getInt("seconds"));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflate = getMenuInflater();
+        inflate.inflate(R.menu.main, menu);
+        MenuItem item = menu.findItem(R.id.spinner);
+        spinner = (Spinner) MenuItemCompat.getActionView(item);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.opciones_people, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.remove:
+                optionSelecionado();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void optionSelecionado() {
+        switch (spinner.getSelectedItem().toString()) {
+            case "Hombre":
+                cargarInformacion(1, -1);
+                break;
+            case "Mujer":
+                cargarInformacion(3, -1);
+                break;
+            case "Anciano":
+                cargarInformacion(4, -1);
+                break;
+            case "Niño":
+                cargarInformacion(2, -1);
+                break;
+        }
     }
 
     private void iniciarVariables() {
@@ -51,53 +152,48 @@ public class CountPeopleActivity extends AppCompatActivity implements View.OnCli
         countAbuelo = 0;
     }
 
-    private void configEventos() {
-        imgHombre.setOnClickListener(this);
-        imgNinia.setOnClickListener(this);
-        imgMujer.setOnClickListener(this);
-        imgAbuelo.setOnClickListener(this);
+    private void animacion() {
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(50);
     }
 
-    private void configComponents() {
-        imgHombre = (ImageView) findViewById(R.id.imgHombre);
-        imgNinia = (ImageView) findViewById(R.id.imgNinia);
-        imgMujer = (ImageView) findViewById(R.id.imgMujer);
-        imgAbuelo = (ImageView) findViewById(R.id.imgAbuelo);
-
-        txtvCronometro = (TextView) findViewById(R.id.txtvCronometro);
-        txtHombre = (TextView) findViewById(R.id.txthombre);
-        txtNinia = (TextView) findViewById(R.id.txtninia);
-        txtMujer = (TextView) findViewById(R.id.txtmujer);
-        txtAbuelo = (TextView) findViewById(R.id.txtabuelo);
-    }
-
-    private void cargarInformacion(int param, View v) {
+    private void cargarInformacion(int param, int n) {
         if (sw) {
             switch (param) {
                 case 1:
-                    countHombre++;
-                    mSmallBang.bang(v);
-                    txtHombre.setText("Total: " + countHombre.toString());
+                    if (countHombre > 0 || n > 0) {
+                        countHombre += n;
+                        animacion();
+                        txtHombre.setText("Total: " + countHombre.toString());
+                    }
+
                     break;
                 case 2:
-                    countNinia++;
-                    mSmallBang.bang(v);
-                    txtNinia.setText("Total: " + countNinia.toString());
+                    if (countNinia > 0 || n > 0) {
+                        countNinia += n;
+                        animacion();
+                        txtNinia.setText("Total: " + countNinia.toString());
+                    }
                     break;
                 case 3:
-                    countMujer++;
-                    mSmallBang.bang(v);
-                    txtMujer.setText("Total: " + countMujer.toString());
+                    if (countMujer > 0 || n > 0) {
+                        countMujer += n;
+                        animacion();
+                        txtMujer.setText("Total: " + countMujer.toString());
+                    }
                     break;
                 case 4:
-                    countAbuelo++;
-                    mSmallBang.bang(v);
-                    txtAbuelo.setText("Total: " + countAbuelo.toString());
+                    if (countAbuelo > 0 || n > 0) {
+                        countAbuelo += n;
+                        animacion();
+                        txtAbuelo.setText("Total: " + countAbuelo.toString());
+                    }
                     break;
             }
         } else {
-            initCronometro();
-            cargarInformacion(param, v);
+            initCronometro(600);
+            horafechainicio();
+            cargarInformacion(param, n);
         }
     }
 
@@ -125,31 +221,39 @@ public class CountPeopleActivity extends AppCompatActivity implements View.OnCli
         alertAdvertencia.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
 
         alertAdvertencia.show();
     }
 
-    private void initCronometro() {
+    private void initCronometro(int n) {
         sw = true;
-        timer = new CountDownTimer(60 * 1000, 100) {
+        timer = new CountDownTimer(n * 1000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
 
-                long hora, minutos, segundos;
-                long segundosTotales = millisUntilFinished / 1000;
+                segundosTotales = millisUntilFinished / 1000;
 
                 hora = segundosTotales / 3600;
                 minutos = (segundosTotales - (hora * 3600)) / 60;
                 segundos = segundosTotales - ((hora * 3600) + (minutos * 60));
-                txtvCronometro.setText(minutos + ":" + segundos);
+                if (minutos < 10 || segundos < 10) {
+                    String min = String.valueOf(minutos), seg = String.valueOf(segundos);
+                    if (minutos < 10)
+                        min = "0" + min;
+                    if (segundos < 10)
+                        seg = "0" + seg;
+                    txtvCronometro.setText(min + ":" + seg);
+                } else {
+                    txtvCronometro.setText(minutos + ":" + segundos);
+                }
             }
 
             @Override
             public void onFinish() {
                 txtvCronometro.setText("Terminado");
+                swTerminado = true;
                 tomarNota();
             }
         };
@@ -159,30 +263,94 @@ public class CountPeopleActivity extends AppCompatActivity implements View.OnCli
 
     private void tomarNota() {
 
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.activity_dialog, null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(CountPeopleActivity.this);
+        builder.setCancelable(false);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(CountPeopleActivity.this);
+        final LayoutInflater inflater = getLayoutInflater();
+        final View dialogLayout = inflater.inflate(R.layout.activity_dialog, null);
+
+        final EditText edtCalle1 = (EditText) dialogLayout.findViewById(R.id.edtCalle1);
+        final EditText edtCalle2 = (EditText) dialogLayout.findViewById(R.id.edtCalle2);
+        final EditText edtCalle3 = (EditText) dialogLayout.findViewById(R.id.edtCalle3);
+        final EditText edtTemperatura = (EditText) dialogLayout.findViewById(R.id.edtTemperatura);
+        final EditText edtNota = (EditText) dialogLayout.findViewById(R.id.edtNota);
+        final Spinner spCondiciones = (Spinner) dialogLayout.findViewById(R.id.spCondicionesClimaticas);
+
+        String[] condiciones = {"Soleado", "Parcialmente Nublado", "Totalmente Nublado",
+                "Parcialmete Lluvioso", "Luvioso"};
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, condiciones);
+        spCondiciones.setAdapter(adapter);
+
+        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                datos[0] = countHombre;
+                datos[1] = countNinia;
+                datos[2] = countMujer;
+                datos[3] = countAbuelo;
+
+                String nota = edtNota.getText().toString();
+                String calle1 = edtCalle1.getText().toString().trim();
+                String calle2 = edtCalle2.getText().toString().trim();
+                String calle3 = edtCalle3.getText().toString().trim();
+                String temperatura = edtTemperatura.getText().toString().trim();
+                String condiciones = spCondiciones.getSelectedItem().toString();
+
+                if (nota.equals("") || calle1.equals("") || calle2.equals("") || calle3.equals("") || temperatura.equals("") || condiciones.equals("")) {
+                    tomarNota();
+                } else {
+                    timer.cancel();
+                    dbHandler.addPerson(datos, nota, calle1, calle2, calle3, temperatura, condiciones);
+                    startActivity(new Intent(CountPeopleActivity.this, CountPeopleActivity.class));
+                    finish();
+                }
+            }
+        });
+
+        if (!swTerminado) {
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+
         builder.setView(dialogLayout);
         builder.show();
     }
 
-    @Override
-    public void onClick(View v) {
+    private void horafechainicio() {
+        DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        Helper.hora_actual = hourFormat.format(new java.util.Date()).toString();
+        Helper.fecha_actual = dateFormat.format(new java.util.Date()).toString();
+    }
+
+    @OnClick(R.id.imgHombre)
+    public void countHombre() {
         swventana = true;
-        switch (v.getId()) {
-            case R.id.imgHombre:
-                cargarInformacion(1, v);
-                break;
-            case R.id.imgNinia:
-                cargarInformacion(2, v);
-                break;
-            case R.id.imgMujer:
-                cargarInformacion(3, v);
-                break;
-            case R.id.imgAbuelo:
-                cargarInformacion(4, v);
-                break;
-        }
+        cargarInformacion(1, 1);
+    }
+
+    @OnClick(R.id.imgNinia)
+    public void countNinia() {
+        swventana = true;
+        cargarInformacion(2, 1);
+    }
+
+    @OnClick(R.id.imgMujer)
+    public void countMujer() {
+        swventana = true;
+        cargarInformacion(3, 1);
+    }
+
+    @OnClick(R.id.imgAbuelo)
+    public void countAbuelo() {
+        swventana = true;
+        cargarInformacion(4, 1);
     }
 }
