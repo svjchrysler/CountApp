@@ -2,11 +2,18 @@ package com.count.svjchrysler.count;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.count.svjchrysler.count.Models.CategoryCar;
+import com.count.svjchrysler.count.Models.CategoryPerson;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -50,6 +57,42 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    public LinkedList<CategoryCar> getCars() {
+        LinkedList<CategoryCar> listCars = new LinkedList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_CARS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    CategoryCar car = new CategoryCar();
+                    car.setNombre(cursor.getString(1));
+                    car.setParticular(Integer.valueOf(cursor.getString(2)));
+                    car.setBicicleta(Integer.valueOf(cursor.getString(3)));
+                    car.setMotocicleta(Integer.valueOf(cursor.getString(4)));
+                    car.setTaxi(Integer.valueOf(cursor.getString(5)));
+                    car.setPublico(Integer.valueOf(cursor.getString(6)));
+                    car.setRepartidor(Integer.valueOf(cursor.getString(7)));
+                    car.setRelevamiento(cursor.getString(8));
+                    car.setLateral_a(cursor.getString(9));
+                    car.setLateral_b(cursor.getString(10));
+                    car.setTemperatura(cursor.getString(11));
+                    car.setCondiciones(cursor.getString(12));
+                    car.setInicio(cursor.getString(13));
+                    car.setFin(cursor.getString(14));
+                    car.setFecha(cursor.getString(15));
+                    car.setNota(cursor.getString(16));
+                    listCars.add(car);
+                } while (cursor.moveToNext());
+            }
+        }
+        finally {
+            cursor.close();
+        }
+
+        return listCars;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CARS_TABLE = "CREATE TABLE " + TABLE_CARS + "("
@@ -69,7 +112,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_HORA_INICIO + " VARCHAR(20),"
                 + KEY_HORA_FIN + " VARCHAR(20),"
                 + KEY_FECHA_INICIO + " VARCHAR(20),"
-                + KEY_FECHA_FIN + " VARCHAR(20),"
                 + KEY_NOTA + " VARCHAR(150)" + ")";
 
         db.execSQL(CREATE_CARS_TABLE);
@@ -89,12 +131,49 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_HORA_INICIO + " VARCHAR(20),"
                 + KEY_HORA_FIN + " VARCHAR(20),"
                 + KEY_FECHA_INICIO + " VARCHAR(20),"
-                + KEY_FECHA_FIN + " VARCHAR(20),"
                 + KEY_NOTA + " VARCHAR(150)" + ")";
 
         db.execSQL(CREATE_PEOPLE_TABLE);
 
     }
+
+    public LinkedList<CategoryPerson> getPeople() {
+        LinkedList<CategoryPerson> listPeople = new LinkedList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_PEOPLE;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    CategoryPerson person = new CategoryPerson();
+                    person.setNombre(cursor.getString(1));
+                    person.setHombre(Integer.valueOf(cursor.getString(2)));
+                    person.setNinia(Integer.valueOf(cursor.getString(3)));
+                    person.setMujer(Integer.valueOf(cursor.getString(4)));
+                    person.setAnciano(Integer.valueOf(cursor.getString(5)));
+                    person.setRelevamiento(cursor.getString(6));
+                    person.setLateral_a(cursor.getString(7));
+                    person.setLateral_b(cursor.getString(8));
+                    person.setTemperatura(cursor.getString(9));
+                    person.setCondiciones(cursor.getString(10));
+                    person.setInicio(cursor.getString(11));
+                    person.setFin(cursor.getString(12));
+                    person.setFecha(cursor.getString(13));
+                    person.setNota(cursor.getString(14));
+                    listPeople.add(person);
+                } while (cursor.moveToNext());
+            }
+        }
+        finally {
+            cursor.close();
+        }
+
+        return listPeople;
+    }
+
+
+
+
 
     public void addCar(int[] datos, String nota, String calle1, String calle2, String calle3, String temperatura, String condiciones) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -116,8 +195,6 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_CONDICIONES, condiciones);
         values.put(KEY_NOTA, nota);
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        values.put(KEY_FECHA_FIN, dateFormat.format(new java.util.Date()).toString());
         values.put(KEY_HORA_FIN, hourFormat.format(new java.util.Date()).toString());
 
         db.insert(TABLE_CARS, null, values);
@@ -141,18 +218,22 @@ public class DBHandler extends SQLiteOpenHelper {
         content.put(KEY_CONDICIONES, condiciones);
         content.put(KEY_NOTA, nota);
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        content.put(KEY_FECHA_FIN, dateFormat.format(new java.util.Date()).toString());
         content.put(KEY_HORA_FIN, hourFormat.format(new java.util.Date()).toString());
 
         db.insert(TABLE_PEOPLE, null, content);
     }
 
+    public void deleteTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CARS, null, null);
+        db.delete(TABLE_PEOPLE, null, null);
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS" + TABLE_CARS);
-            db.execSQL("DROP TABLE IF EXISTS" + TABLE_PEOPLE);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_PEOPLE);
             onCreate(db);
         }
     }

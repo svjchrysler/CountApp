@@ -1,32 +1,30 @@
 package com.count.svjchrysler.count.Models;
 
-/**
- * Created by mvaldez on 15/08/2016.
- */
 public class CategoryCar {
-    private int id;
-    private int idEncuestador;
+
+    private String nombre;
     private int particular;
     private int bicicleta;
-    private int publico;
-    private int repartidor;
     private int motocicleta;
     private int taxi;
+    private int publico;
+    private int repartidor;
+    private String relevamiento;
+    private String lateral_a;
+    private String lateral_b;
+    private String temperatura;
+    private String condiciones;
+    private String inicio;
+    private String fin;
+    private String fecha;
+    private String nota;
 
-    public int getId() {
-        return id;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getIdEncuestador() {
-        return idEncuestador;
-    }
-
-    public void setIdEncuestador(int idEncuestador) {
-        this.idEncuestador = idEncuestador;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getParticular() {
@@ -45,6 +43,22 @@ public class CategoryCar {
         this.bicicleta = bicicleta;
     }
 
+    public int getMotocicleta() {
+        return motocicleta;
+    }
+
+    public void setMotocicleta(int motocicleta) {
+        this.motocicleta = motocicleta;
+    }
+
+    public int getTaxi() {
+        return taxi;
+    }
+
+    public void setTaxi(int taxi) {
+        this.taxi = taxi;
+    }
+
     public int getPublico() {
         return publico;
     }
@@ -61,19 +75,75 @@ public class CategoryCar {
         this.repartidor = repartidor;
     }
 
-    public int getMotocicleta() {
-        return motocicleta;
+    public String getRelevamiento() {
+        return relevamiento;
     }
 
-    public void setMotocicleta(int motocicleta) {
-        this.motocicleta = motocicleta;
+    public void setRelevamiento(String relevamiento) {
+        this.relevamiento = relevamiento;
     }
 
-    public int getTaxi() {
-        return taxi;
+    public String getLateral_a() {
+        return lateral_a;
     }
 
-    public void setTaxi(int taxi) {
-        this.taxi = taxi;
+    public void setLateral_a(String lateral_a) {
+        this.lateral_a = lateral_a;
+    }
+
+    public String getLateral_b() {
+        return lateral_b;
+    }
+
+    public void setLateral_b(String lateral_b) {
+        this.lateral_b = lateral_b;
+    }
+
+    public String getTemperatura() {
+        return temperatura;
+    }
+
+    public void setTemperatura(String temperatura) {
+        this.temperatura = temperatura;
+    }
+
+    public String getCondiciones() {
+        return condiciones;
+    }
+
+    public void setCondiciones(String condiciones) {
+        this.condiciones = condiciones;
+    }
+
+    public String getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(String inicio) {
+        this.inicio = inicio;
+    }
+
+    public String getFin() {
+        return fin;
+    }
+
+    public void setFin(String fin) {
+        this.fin = fin;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
     }
 }
