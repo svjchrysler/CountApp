@@ -8,6 +8,7 @@ import android.os.Vibrator;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,7 +60,7 @@ public class CountPeopleActivity extends AppCompatActivity {
 
     private CountDownTimer timer;
     private Integer countHombre, countNinia, countMujer, countAbuelo;
-    private boolean sw = false, swventana = false, swTerminado = false;
+    private boolean sw = false, swventana = false, swTerminado = false, swCronometro = false;
     private int[] datos = new int[4];
     private Spinner spinner;
     private DBHandler dbHandler = new DBHandler(this);
@@ -78,14 +80,24 @@ public class CountPeopleActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        if (sw) {
+            initCronometro((int) segundosTotales);
+        }
+        super.onStop();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("abuelo", countAbuelo);
         outState.putInt("ninia", countNinia);
         outState.putInt("mujer", countMujer);
         outState.putInt("hombre", countHombre);
+        outState.putBoolean("sw", swventana);
         outState.putInt("seconds", (int) segundosTotales);
-        timer.cancel();
+        if (sw)
+            timer.cancel();
     }
 
     @Override
@@ -100,6 +112,8 @@ public class CountPeopleActivity extends AppCompatActivity {
         txtHombre.setText("Total: " + countHombre);
         txtMujer.setText("Total: " + countMujer);
         txtNinia.setText("Total: " + countNinia);
+
+        swventana = savedInstanceState.getBoolean("sw");
 
         initCronometro(savedInstanceState.getInt("seconds"));
     }
@@ -298,7 +312,7 @@ public class CountPeopleActivity extends AppCompatActivity {
                 String temperatura = edtTemperatura.getText().toString().trim();
                 String condiciones = spCondiciones.getSelectedItem().toString();
 
-                if (nota.equals("") || calle1.equals("") || calle2.equals("") || calle3.equals("") || temperatura.equals("") || condiciones.equals("")) {
+                if (calle1.equals("") || calle2.equals("") || calle3.equals("") || temperatura.equals("") || condiciones.equals("")) {
                     tomarNota();
                 } else {
                     timer.cancel();

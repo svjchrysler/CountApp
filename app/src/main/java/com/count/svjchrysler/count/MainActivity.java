@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     cargarInformacionCars(listCars.get(i));
                 }
 
+                if (!swsincronizacion)
+                    dbHandler.deleteTable();
+
                 Toast.makeText(MainActivity.this, "Gracias por utilizar nuestro sistema :)", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "No esta conecta a internet", Toast.LENGTH_SHORT).show();
@@ -163,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
         request.add(stringRequest);
     }
 
+    private Boolean swsincronizacion = false;
+
     private void cargarInformacionPeople(final CategoryPerson person) {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Subiendo su informacion");
@@ -178,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        swsincronizacion = true;
                         Toast.makeText(MainActivity.this, "Error En el Servidor volver a intentarlo", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }

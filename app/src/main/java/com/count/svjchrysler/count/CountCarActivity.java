@@ -156,7 +156,9 @@ public class CountCarActivity extends AppCompatActivity {
         outState.putInt("publico", countPublico);
         outState.putInt("repartidor", countRepartidor);
         outState.putInt("seconds", (int) segundosTotales);
-        timer.cancel();
+        outState.putBoolean("sw", swVentana);
+        if (sw)
+            timer.cancel();
     }
 
     @Override
@@ -175,8 +177,16 @@ public class CountCarActivity extends AppCompatActivity {
         txtParticular.setText("Total: " + countParticular);
         txtPublico.setText("Total: " + countPublico);
         txtRepartidor.setText("Total: " + countRepartidor);
-
+        swVentana = savedInstanceState.getBoolean("sw");
         initCronometro(savedInstanceState.getInt("seconds"));
+    }
+
+    @Override
+    protected void onStop() {
+        if (sw) {
+            initCronometro((int) segundosTotales);
+        }
+        super.onStop();
     }
 
     private void initCronometro(int n) {
@@ -310,7 +320,7 @@ public class CountCarActivity extends AppCompatActivity {
                 String temperatura = edtTemperatura.getText().toString().trim();
                 String condiciones = spCondiciones.getSelectedItem().toString();
 
-                if (nota.equals("") || calle1.equals("") || calle2.equals("") || calle3.equals("") || temperatura.equals("") || condiciones.equals("")) {
+                if (calle1.equals("") || calle2.equals("") || calle3.equals("") || temperatura.equals("") || condiciones.equals("")) {
                     tomarNota();
                 } else {
                     timer.cancel();
